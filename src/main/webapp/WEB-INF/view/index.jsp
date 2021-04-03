@@ -7,6 +7,9 @@
 </head>
 <body>
 <div class="wrapper">
+    <a href="<c:url value='/create'/>">Add accident</a> |
+</div>
+<div class="wrapper">
     <div><h1 class="title">Accidents</h1></div>
     <div class="reply">
         <c:forEach items="${accidents}" var="accident">
@@ -19,6 +22,9 @@
             </div>
             <div class="text">
                 <c:out value="${accident.value.text}"/>
+            </div>
+            <div class="text">
+                <a href="<c:url value='/edit?id=${accident.key}'/>">Edit accident</a>
             </div>
         </div>
         </c:forEach>

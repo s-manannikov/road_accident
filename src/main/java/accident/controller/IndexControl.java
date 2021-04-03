@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class IndexControl {
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("accidents", new AccidentMem().getAccidents());
+        model.addAttribute("accidents", AccidentMem.instOf().getAccidents());
         return "index";
     }
 }
