@@ -4,7 +4,6 @@
 
 <html>
 <body>
-
 <div class="wrapper">
     <form action="<c:url value='/edit?id=${accident.id}'/>" method="POST">
         <table>
@@ -15,6 +14,17 @@
             <tr>
                 <td><label for="address">Address:</label></td>
                 <td><input type="text" name="address" id="address" value="<c:out value="${accident.address}"/>"></td>
+            </tr>
+            <tr>
+                <td><label for="type.id">Type:</label></td>
+                <td>
+                    <select name="type.id" id="type.id">
+                        <option selected hidden value="${accident.type.id}">${accident.type.name}</option>
+                        <c:forEach var="type" items="${types}" >
+                            <option value="${type.id}">${type.name}</option>
+                        </c:forEach>
+                    </select>
+                </td>
             </tr>
             <tr>
                 <td><label for="text">Text:</label></td>

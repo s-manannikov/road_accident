@@ -15,16 +15,19 @@
         <c:forEach items="${accidents}" var="accident">
         <p><div class="post">
             <div class="userName">
-                <c:out value="${accident.value.name}"/>
+                <c:out value="${accident.name}"/>
             </div>
             <div class="address">
-                <c:out value="${accident.value.address}"/>
+                <c:out value="${accident.address}"/>
+            </div>
+            <div class="address">
+                <c:out value="${accident.type.name}"/>
             </div>
             <div class="text">
-                <c:out value="${accident.value.text}"/>
+                <c:out value="${accident.text}"/>
             </div>
             <div class="text">
-                <a href="<c:url value='/edit?id=${accident.key}'/>">Edit accident</a>
+                <a href="<c:url value='/edit?id=${accident.id}'/>">Edit accident</a>
             </div>
         </div>
         </c:forEach>

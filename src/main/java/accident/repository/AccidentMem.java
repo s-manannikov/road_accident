@@ -1,18 +1,21 @@
 package accident.repository;
 
 import accident.model.Accident;
+import accident.model.AccidentType;
 import org.springframework.stereotype.Repository;
+
 import java.util.HashMap;
 
 @Repository
 public class AccidentMem {
     private final static HashMap<Integer, Accident> ACCIDENTS = new HashMap<>();
-    private static int ID = 4;
+    private final static HashMap<Integer, AccidentType> ACCIDENT_TYPES = new HashMap<>();
+    private static int ID = 1;
 
     private AccidentMem() {
-        ACCIDENTS.put(1, new Accident("name1", "text1", "address1"));
-        ACCIDENTS.put(2, new Accident("name2", "text2", "address2"));
-        ACCIDENTS.put(3, new Accident("name3", "text3", "address3"));
+        ACCIDENT_TYPES.put(1, AccidentType.of(1, "Two cars"));
+        ACCIDENT_TYPES.put(2, AccidentType.of(2, "Car and human"));
+        ACCIDENT_TYPES.put(3, AccidentType.of(3, "Car and bicycle"));
     }
 
     private static final class Holder {
@@ -38,5 +41,13 @@ public class AccidentMem {
 
     public void updateAccident(Accident accident) {
         ACCIDENTS.put(accident.getId(), accident);
+    }
+
+    public HashMap<Integer, AccidentType> getAccidentTypes() {
+        return ACCIDENT_TYPES;
+    }
+
+    public AccidentType findTypeById(int id) {
+        return ACCIDENT_TYPES.get(id);
     }
 }
