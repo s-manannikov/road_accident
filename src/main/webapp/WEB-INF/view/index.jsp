@@ -23,6 +23,11 @@
             <div class="address">
                 <c:out value="${accident.type.name}"/>
             </div>
+            <div class="address">
+                <c:forEach items="${accident.rules}" var="rule">
+                    <c:out value="${rule.name}"/>
+                </c:forEach>
+            </div>
             <div class="text">
                 <c:out value="${accident.text}"/>
             </div>

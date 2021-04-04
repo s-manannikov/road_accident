@@ -27,6 +27,16 @@
                 </td>
             </tr>
             <tr>
+                <td><label for="ruleIds">Rules:</label></td>
+                <td>
+                    <select name="ruleIds" id="ruleIds" multiple>
+                        <c:forEach var="rule" items="${rules}" >
+                            <option value="${rule.id}">${rule.name}</option>
+                        </c:forEach>
+                    </select>
+                </td>
+            </tr>
+            <tr>
                 <td><label for="text">Text:</label></td>
                 <td><input type="text" name="text" id="text" value="<c:out value="${accident.text}"/>"></td>
             </tr>

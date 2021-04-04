@@ -1,6 +1,7 @@
 package accident.model;
 
 import java.util.Objects;
+import java.util.Set;
 
 public class Accident {
     private int id;
@@ -8,6 +9,7 @@ public class Accident {
     private String text;
     private String address;
     private AccidentType type;
+    private Set<Rule> rules;
 
     public Accident(String name, String text, String address) {
         this.name = name;
@@ -55,6 +57,14 @@ public class Accident {
         this.type = type;
     }
 
+    public Set<Rule> getRules() {
+        return rules;
+    }
+
+    public void setRules(Set<Rule> rules) {
+        this.rules = rules;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -63,11 +73,13 @@ public class Accident {
         return id == accident.id
                 && Objects.equals(name, accident.name)
                 && Objects.equals(text, accident.text)
-                && Objects.equals(address, accident.address);
+                && Objects.equals(address, accident.address)
+                && Objects.equals(type, accident.type)
+                && Objects.equals(rules, accident.rules);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, text, address);
+        return Objects.hash(id, name, text, address, type, rules);
     }
 }

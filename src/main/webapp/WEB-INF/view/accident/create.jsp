@@ -16,11 +16,21 @@
             <td><input type="text" name="address" id="address"></td>
         </tr>
         <tr>
-            <td>Type:</td>
+            <td><label for="type.id">Type:</label></td>
             <td>
                 <select name="type.id" id="type.id">
                     <c:forEach var="type" items="${types}" >
                         <option value="${type.id}">${type.name}</option>
+                    </c:forEach>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="ruleIds">Rules:</label></td>
+            <td>
+                <select name="ruleIds" id="ruleIds" multiple>
+                    <c:forEach var="rule" items="${rules}" >
+                        <option value="${rule.id}">${rule.name}</option>
                     </c:forEach>
                 </select>
             </td>
