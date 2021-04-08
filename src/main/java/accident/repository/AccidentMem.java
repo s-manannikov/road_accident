@@ -6,14 +6,15 @@ import accident.model.Rule;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Repository
 public class AccidentMem {
-    private final static HashMap<Integer, Accident> ACCIDENTS = new HashMap<>();
-    private final static HashMap<Integer, AccidentType> ACCIDENT_TYPES = new HashMap<>();
-    private final static HashMap<Integer, Rule> RULES = new HashMap<>();
-    private static int ID = 1;
+    private final HashMap<Integer, Accident> ACCIDENTS = new HashMap<>();
+    private final HashMap<Integer, AccidentType> ACCIDENT_TYPES = new HashMap<>();
+    private final HashMap<Integer, Rule> RULES = new HashMap<>();
+    private final AtomicInteger ID = new AtomicInteger(1);
 
     private AccidentMem() {
         ACCIDENT_TYPES.put(1, AccidentType.of(1, "Two cars"));
@@ -24,21 +25,13 @@ public class AccidentMem {
         RULES.put(3, Rule.of(3, "Rule 3"));
     }
 
-    private static final class Holder {
-        public static final AccidentMem INST = new AccidentMem();
-    }
-
-    public static AccidentMem instOf() {
-        return Holder.INST;
-    }
-
     public HashMap<Integer, Accident> getAccidents() {
         return ACCIDENTS;
     }
 
     public void create(Accident accident) {
-        accident.setId(ID);
-        ACCIDENTS.put(ID++, accident);
+        accident.setId(ID.get());
+        ACCIDENTS.put(ID.getAndIncrement(), accident);
     }
 
     public Accident findAccidentById(int id) {
@@ -49,16 +42,16 @@ public class AccidentMem {
         ACCIDENTS.put(accident.getId(), accident);
     }
 
-    public HashMap<Integer, AccidentType> getAccidentTypes() {
-        return ACCIDENT_TYPES;
+    public List<AccidentType> getAccidentTypes() {
+        return new ArrayList<>(ACCIDENT_TYPES.values());
     }
 
     public AccidentType findTypeById(int id) {
         return ACCIDENT_TYPES.get(id);
     }
 
-    public HashMap<Integer, Rule> getRules() {
-        return RULES;
+    public List<Rule> getRules() {
+        return new ArrayList<>(RULES.values());
     }
 
     public Set<Rule> findRulesById(String[] ids) {
