@@ -2,7 +2,7 @@ package accident.controller;
 
 import accident.model.AccidentType;
 import accident.model.Rule;
-import accident.repository.AccidentJdbcTemplate;
+import accident.repository.AccidentHibernate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +16,9 @@ import java.util.*;
 
 @Controller
 public class AccidentControl {
-    private final AccidentJdbcTemplate accidents;
+    private final AccidentHibernate accidents;
 
-    public AccidentControl(AccidentJdbcTemplate accidents) {
+    public AccidentControl(AccidentHibernate accidents) {
         this.accidents = accidents;
     }
 
@@ -33,11 +33,15 @@ public class AccidentControl {
 
     @PostMapping("/save")
     public String save(@ModelAttribute Accident accident, @RequestParam("type.id") int id, HttpServletRequest req) {
-        AccidentType type = accidents.findTypeById(id);
-        String[] ids = req.getParameterValues("ruleIds");
-        Set<Rule> rules = accidents.findRulesById(ids);
-        accident.setRules(rules);
+        AccidentType type = new AccidentType();
+        type.setId(id);
         accident.setType(type);
+        String[] ids = req.getParameterValues("ruleIds");
+        for (String ruleId : ids) {
+            Rule rule = new Rule();
+            rule.setId(Integer.parseInt(ruleId));
+            accident.addRules(rule);
+        }
         accidents.create(accident);
         return "redirect:/";
     }
@@ -56,13 +60,14 @@ public class AccidentControl {
     @PostMapping("/edit")
     public String edit(@ModelAttribute Accident accident, @RequestParam("id") int id,
             @RequestParam("type.id") int typeId, HttpServletRequest req) {
-        AccidentType type = accidents.findTypeById(typeId);
         String[] ids = req.getParameterValues("ruleIds");
-        Set<Rule> rules = accidents.findRulesById(ids);
-        accident.setRules(rules);
-        accident.setType(type);
+        for (String ruleId : ids) {
+            Rule rule = new Rule();
+            rule.setId(Integer.parseInt(ruleId));
+            accident.addRules(rule);
+        }
         accident.setId(id);
-        accidents.updateAccident(accident);
+        accidents.create(accident);
         return "redirect:/";
     }
 }

@@ -9,7 +9,7 @@ import accident.model.Accident;
 
 import java.util.*;
 
-@Repository
+//@Repository
 public class AccidentJdbcTemplate {
     private final JdbcTemplate jdbc;
 
@@ -67,7 +67,7 @@ public class AccidentJdbcTemplate {
                     type.setId(rs.getInt("type_id"));
                     type.setName(rs.getString("type_name"));
                     accident.setType(type);
-                    Set<Rule> set = new HashSet<>();
+                    List<Rule> set = new ArrayList<>();
                     final Rule rule = new Rule();
                     rule.setId(rs.getInt("rule_id"));
                     rule.setName(rs.getString("rule_name"));

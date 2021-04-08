@@ -1,15 +1,25 @@
 package accident.model;
 
-import java.util.Objects;
-import java.util.Set;
+import javax.persistence.*;
+import java.util.*;
 
+@Entity
+@Table(name = "accident")
 public class Accident {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private String text;
     private String address;
+    @ManyToOne
+    @JoinColumn(name = "type_id")
     private AccidentType type;
-    private Set<Rule> rules;
+    @ManyToMany
+    @JoinTable (name = "accident_rule",
+            joinColumns = @JoinColumn (name = "accident_id"),
+            inverseJoinColumns = @JoinColumn(name = "rule_id"))
+    private List<Rule> rules = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -51,12 +61,16 @@ public class Accident {
         this.type = type;
     }
 
-    public Set<Rule> getRules() {
+    public List<Rule> getRules() {
         return rules;
     }
 
-    public void setRules(Set<Rule> rules) {
+    public void setRules(List<Rule> rules) {
         this.rules = rules;
+    }
+
+    public void addRules(Rule rule) {
+        this.rules.add(rule);
     }
 
     @Override

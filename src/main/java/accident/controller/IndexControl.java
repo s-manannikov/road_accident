@@ -1,6 +1,7 @@
 package accident.controller;
 
 import accident.model.Accident;
+import accident.repository.AccidentHibernate;
 import accident.repository.AccidentJdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,9 +12,9 @@ import java.util.List;
 
 @Controller
 public class IndexControl {
-    private final AccidentJdbcTemplate accidents;
+    private final AccidentHibernate accidents;
 
-    public IndexControl(AccidentJdbcTemplate accidents) {
+    public IndexControl(AccidentHibernate accidents) {
         this.accidents = accidents;
     }
 
