@@ -7,7 +7,7 @@
 </head>
 <body>
 <div class="wrapper">
-    <a href="<c:url value='/create'/>">Add accident</a> |
+    <a href="<c:url value='/create'/>">Add accident</a> | Login as : ${user.username}
 </div>
 <div class="wrapper">
     <div><h1 class="title">Accidents</h1></div>

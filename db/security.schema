@@ -1,0 +1,12 @@
+create table users (
+    username text not null,
+    password text not null,
+    enabled boolean default true,
+    primary key (username)
+);
+
+create table authorities (
+    username text not null,
+    authority text not null,
+    foreign key (username) references users(username)
+);
