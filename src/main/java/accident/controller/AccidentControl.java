@@ -2,7 +2,9 @@ package accident.controller;
 
 import accident.model.AccidentType;
 import accident.model.Rule;
-import accident.repository.AccidentHibernate;
+import accident.repository.AccidentRepository;
+import accident.repository.RuleRepository;
+import accident.repository.TypeRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,20 +15,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class AccidentControl {
-    private final AccidentHibernate accidents;
+    private final AccidentRepository accidents;
+    private final RuleRepository rules;
+    private final TypeRepository types;
 
-    public AccidentControl(AccidentHibernate accidents) {
+    public AccidentControl(AccidentRepository accidents, RuleRepository rules, TypeRepository types) {
         this.accidents = accidents;
+        this.rules = rules;
+        this.types = types;
     }
 
     @GetMapping("/create")
     public String create(Model model) {
-        List<AccidentType> types = new ArrayList<>(accidents.getAccidentTypes());
+        List<AccidentType> types = this.types.findAll();
         model.addAttribute("types", types);
-        List<Rule> rules = new ArrayList<>(accidents.getRules());
+        List<Rule> rules = this.rules.findAll();
         model.addAttribute("rules", rules);
         return "accident/create";
     }
@@ -37,22 +44,20 @@ public class AccidentControl {
         type.setId(id);
         accident.setType(type);
         String[] ids = req.getParameterValues("ruleIds");
-        for (String ruleId : ids) {
-            Rule rule = new Rule();
-            rule.setId(Integer.parseInt(ruleId));
-            accident.addRules(rule);
-        }
-        accidents.create(accident);
+        List<Integer> ruleIds = Arrays.stream(ids).map(Integer::parseInt).collect(Collectors.toList());
+        List<Rule> rules = this.rules.findAllById(ruleIds);
+        accident.setRules(rules);
+        accidents.save(accident);
         return "redirect:/";
     }
 
     @GetMapping("/edit")
     public String edit(@RequestParam("id") int id, Model model) {
-        List<AccidentType> types = new ArrayList<>(accidents.getAccidentTypes());
+        List<AccidentType> types = this.types.findAll();
         model.addAttribute("types", types);
-        Accident accident = accidents.findAccidentById(id);
+        Accident accident = this.accidents.findById(id).orElse(null);
         model.addAttribute("accident", accident);
-        List<Rule> rules = new ArrayList<>(accidents.getRules());
+        List<Rule> rules = this.rules.findAll();
         model.addAttribute("rules", rules);
         return "accident/edit";
     }
@@ -61,13 +66,11 @@ public class AccidentControl {
     public String edit(@ModelAttribute Accident accident, @RequestParam("id") int id,
             @RequestParam("type.id") int typeId, HttpServletRequest req) {
         String[] ids = req.getParameterValues("ruleIds");
-        for (String ruleId : ids) {
-            Rule rule = new Rule();
-            rule.setId(Integer.parseInt(ruleId));
-            accident.addRules(rule);
-        }
+        List<Integer> ruleIds = Arrays.stream(ids).map(Integer::parseInt).collect(Collectors.toList());
+        List<Rule> rules = this.rules.findAllById(ruleIds);
         accident.setId(id);
-        accidents.create(accident);
+        accident.setRules(rules);
+        accidents.save(accident);
         return "redirect:/";
     }
 }

@@ -1,27 +1,25 @@
 package accident.controller;
 
 import accident.model.Accident;
-import accident.repository.AccidentHibernate;
-import accident.repository.AccidentJdbcTemplate;
+import accident.repository.AccidentRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class IndexControl {
-    private final AccidentHibernate accidents;
+    private final AccidentRepository accidents;
 
-    public IndexControl(AccidentHibernate accidents) {
+    public IndexControl(AccidentRepository accidents) {
         this.accidents = accidents;
     }
 
     @GetMapping("/")
     public String index(Model model) {
-        List<Accident> accidents = new ArrayList<>(this.accidents.getAccidents());
-        model.addAttribute("accidents", accidents);
+        List<Accident> accidentList = accidents.findAll();
+        model.addAttribute("accidents", accidentList);
         return "index";
     }
 }
