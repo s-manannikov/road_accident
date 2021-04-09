@@ -1,11 +1,23 @@
 package accident.model;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "users")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String username;
+
     private String password;
+
+    private String username;
+
+    @ManyToOne
+    @JoinColumn(name = "authority_id")
+    private Authority authority;
+
     private boolean enabled;
 
     public int getId() {
@@ -16,6 +28,14 @@ public class User {
         this.id = id;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -24,12 +44,12 @@ public class User {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public Authority getAuthority() {
+        return authority;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setAuthority(Authority authority) {
+        this.authority = authority;
     }
 
     public boolean isEnabled() {
@@ -45,14 +65,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id
-                && enabled == user.enabled
-                && Objects.equals(username, user.username)
-                && Objects.equals(password, user.password);
+        return id == user.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, enabled);
+        return Objects.hash(id);
     }
 }
