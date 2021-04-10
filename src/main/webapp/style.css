@@ -15,7 +15,7 @@ body {
     -moz-border-radius: 5px;
     border-radius: 5px;
 }
-.title, .userName {
+.title, .name {
     font-weight:700;
 }
 
@@ -29,4 +29,8 @@ body {
 }
 .post .text{
     margin-top:10px;
+}
+
+.form {
+    font: 14px Arial,Tahoma,Helvetica,FreeSans,sans-serif;
 }

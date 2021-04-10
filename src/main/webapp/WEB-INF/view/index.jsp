@@ -1,20 +1,21 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <style><%@include file="/style.css"%></style>
+
 <html>
 <head>
     <title>Accident</title>
 </head>
 <body>
 <div class="wrapper">
-    <a href="<c:url value='/create'/>">Add accident</a> | Login as : ${user.username}
+    <a href="<c:url value='/create'/>">Add accident</a> | Logged in as : ${user.username} | <a href="<c:url value='/logout'/>">Log out</a>
 </div>
 <div class="wrapper">
     <div><h1 class="title">Accidents</h1></div>
     <div class="reply">
         <c:forEach items="${accidents}" var="accident">
         <p><div class="post">
-            <div class="userName">
+            <div class="name">
                 <c:out value="${accident.name}"/>
             </div>
             <div class="address">

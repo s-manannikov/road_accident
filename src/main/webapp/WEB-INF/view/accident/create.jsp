@@ -5,18 +5,22 @@
 <html>
 <body>
 <div class="wrapper">
-    <form action="<c:url value='/save'/>" method="POST">
+    <a href="<c:url value='/'/>">Main</a> | <a href="<c:url value='/create'/>">Add accident</a> | Logged in as : ${user.username} | <a href="<c:url value='/logout'/>">Log out</a>
+</div>
+<div class="wrapper">
+    <div><h1 class="title">Add accident</h1></div>
+    <form action="<c:url value='/save'/>" method="post">
     <table>
         <tr>
-            <td><label for="name">Name:</label></td>
+            <td><label class="form" for="name">Name:</label></td>
             <td><input type="text" name="name" id="name"></td>
         </tr>
         <tr>
-            <td><label for="address">Address:</label></td>
+            <td><label class="form" for="address">Address:</label></td>
             <td><input type="text" name="address" id="address"></td>
         </tr>
         <tr>
-            <td><label for="type.id">Type:</label></td>
+            <td><label class="form" for="type.id">Type:</label></td>
             <td>
                 <select name="type.id" id="type.id">
                     <c:forEach var="type" items="${types}" >
@@ -26,7 +30,7 @@
             </td>
         </tr>
         <tr>
-            <td><label for="ruleIds">Rules:</label></td>
+            <td><label class="form" for="ruleIds">Rules:</label></td>
             <td>
                 <select name="ruleIds" id="ruleIds" multiple>
                     <c:forEach var="rule" items="${rules}" >
@@ -36,7 +40,7 @@
             </td>
         </tr>
         <tr>
-            <td><label for="text">Text:</label></td>
+            <td><label class="form" for="text">Text:</label></td>
             <td><input type="text" name="text" id="text"></td>
         </tr>
         <tr>

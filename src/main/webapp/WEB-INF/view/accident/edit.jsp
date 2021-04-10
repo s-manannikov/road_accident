@@ -5,7 +5,10 @@
 <html>
 <body>
 <div class="wrapper">
-    <form action="<c:url value='/edit?id=${accident.id}'/>" method="POST">
+    <a href="<c:url value='/'/>">Main</a> | <a href="<c:url value='/create'/>">Add accident</a> | Logged in as : ${user.username} | <a href="<c:url value='/logout'/>">Log out</a>
+</div>
+<div class="wrapper">
+    <form action="<c:url value='/edit?id=${accident.id}'/>" method="post">
         <table>
             <tr>
                 <td><label for="name">Name:</label></td>

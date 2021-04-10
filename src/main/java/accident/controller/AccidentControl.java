@@ -5,6 +5,7 @@ import accident.model.Rule;
 import accident.repository.AccidentRepository;
 import accident.repository.RuleRepository;
 import accident.repository.TypeRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +32,7 @@ public class AccidentControl {
 
     @GetMapping("/create")
     public String create(Model model) {
+        model.addAttribute("user", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         List<AccidentType> types = this.types.findAll();
         model.addAttribute("types", types);
         List<Rule> rules = this.rules.findAll();
@@ -53,6 +55,7 @@ public class AccidentControl {
 
     @GetMapping("/edit")
     public String edit(@RequestParam("id") int id, Model model) {
+        model.addAttribute("user", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         List<AccidentType> types = this.types.findAll();
         model.addAttribute("types", types);
         Accident accident = this.accidents.findById(id).orElse(null);
