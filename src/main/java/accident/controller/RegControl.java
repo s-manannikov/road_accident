@@ -1,6 +1,5 @@
 package accident.controller;
 
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,12 +29,11 @@ public class RegControl {
         user.setPassword(encoder.encode(user.getPassword()));
         user.setAuthority(authorities.findByAuthority("ROLE_USER"));
         String errorMessage = "This username is not available! Try again!";
-        try {
-            users.save(user);
-        } catch (DataIntegrityViolationException exception) {
+        if (users.findByUsername(user.getUsername()) != null) {
             model.addAttribute("errorMessage", errorMessage);
             return "reg";
         }
+        users.save(user);
         return "redirect:/login";
     }
 
